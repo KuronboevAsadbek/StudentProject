@@ -1,0 +1,15 @@
+server:
+  port: 1111
+
+spring:
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        show_format: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:postgresql://localhost:5432/student-db
+    username: student-user
+    password: 1
