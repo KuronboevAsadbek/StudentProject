@@ -1,5 +1,7 @@
 package uz.student.student.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.student.student.model.FieldsOfStudyModel;
@@ -34,5 +36,10 @@ public class FieldsofstudyController {
     public  ResponseEntity delete(@PathVariable Long id){
         fieldsofStudyService.delete(id);
         return ResponseEntity.ok("Deleted!");
+    }
+    @GetMapping("/paging/getfield")
+    public ResponseEntity<?> getAllbyPage(Pageable pageable){
+        Page<FieldsOfStudyModel> result = fieldsofStudyService.findAll(pageable);
+        return ResponseEntity.ok(result);
     }
 }

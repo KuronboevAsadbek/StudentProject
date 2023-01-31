@@ -1,5 +1,7 @@
 package uz.student.student.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -30,17 +32,17 @@ public class StudentController {
     }
 
     @PostMapping("/createStudent")
-    public ResponseEntity<?> create(@RequestBody StudentModel studentModel){
+    public ResponseEntity<?> create(@RequestBody StudentModel studentModel) {
         return ResponseEntity.ok(studentService.create(studentModel));
     }
 
     @GetMapping("/getStudents")
-    public ResponseEntity<?> getAll(){
+    public ResponseEntity<?> getAll() {
         return ResponseEntity.ok(studentService.getall());
     }
 
     @GetMapping("/getone/{id}")
-    public ResponseEntity<?> getone(@PathVariable Long id){
+    public ResponseEntity<?> getone(@PathVariable Long id) {
         return ResponseEntity.ok(studentService.findOne(id));
     }
 
@@ -49,24 +51,32 @@ public class StudentController {
                                     @RequestBody StudentModel studentModel) throws NotActiveException {
         return ResponseEntity.ok(studentService.update(studentModel, id));
     }
+
     @DeleteMapping("/deletestudent/{id}")
-    public ResponseEntity delete(@PathVariable Long id){
-       studentService.delete(id);
-       return ResponseEntity.ok(id + " Deleted");
+    public ResponseEntity delete(@PathVariable Long id) {
+        studentService.delete(id);
+        return ResponseEntity.ok(id + " Deleted");
     }
 
     @GetMapping("/getallasc")
-    public ResponseEntity<?> getallasc(){
+    public ResponseEntity<?> getallasc() {
         return ResponseEntity.ok(studentService.findAllasc());
     }
+
     @GetMapping("/getalldesc")
-    public ResponseEntity<?> getalldesc(){
+    public ResponseEntity<?> getalldesc() {
         return ResponseEntity.ok(studentService.findAlldesc());
     }
 
     @GetMapping("/getbystartname")
-    public ResponseEntity<?> findByStartName(@RequestParam String firstName){
-        List<StudentModel> studentModels =studentService.findByNameStartWith(firstName.toUpperCase(Locale.ROOT));
+    public ResponseEntity<?> findByStartName(@RequestParam String firstName) {
+        List<StudentModel> studentModels = studentService.findByNameStartWith(firstName.toUpperCase(Locale.ROOT));
         return ResponseEntity.ok(studentModels);
+    }
+
+    @GetMapping("/posts/paging")
+    public ResponseEntity<?> getAllbyPaging(Pageable pageable) {
+        Page<StudentModel> result = studentService.findAll(pageable);
+        return    ResponseEntity.ok(result);
     }
 }

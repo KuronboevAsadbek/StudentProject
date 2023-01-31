@@ -1,6 +1,9 @@
 package uz.student.student.service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import uz.student.student.model.StudentModel;
 import uz.student.student.repository.StudentRepostirory;
 
@@ -89,6 +92,12 @@ public class StudentService {
 
     public List<StudentModel> findByNameStartWith(String firstName){
         return studentRepostirory.findByNameLikeStartWith(firstName);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<StudentModel> findAll(Pageable pageable){
+        return studentRepostirory.findAll(pageable);
+
     }
 
 
